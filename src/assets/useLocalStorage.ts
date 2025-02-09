@@ -1,5 +1,5 @@
 // hooks/useLocalStorage.ts
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 //TODO
 // Add error handling for when localStorage is full?
@@ -8,30 +8,45 @@ import { useState, useEffect } from "react";
 // Versioning stored data?
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
-  // Load state from localStorage
-  const [storedValue, setStoredValue] = useState<T>(() => {
+  // This function handles the initial loading of data
+  const getInitialValue = () => {
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      // Add a console.log to see what we're getting from localStorage
+      console.log("Loading from localStorage:", item);
+
+      // Be more explicit about our fallback to initialValue
+      if (item === null) {
+        // If nothing in localStorage, use and save our initial value
+        window.localStorage.setItem(key, JSON.stringify(initialValue));
+        return initialValue;
+      }
+      return JSON.parse(item);
     } catch (error) {
       console.error("Error reading from localStorage:", error);
       return initialValue;
     }
-  });
+  };
 
-  // Add debouncing to prevent rapid localStorage updates
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      try {
-        window.localStorage.setItem(key, JSON.stringify(storedValue));
-      } catch (error) {
-        console.error("Error saving to localStorage:", error);
-      }
-    }, 100); // Wait 100ms before saving to localStorage
+  // Create our state with the initialization function
+  const [storedValue, setStoredValue] = useState(getInitialValue);
 
-    // Cleanup timeout on component unmount or when storedValue changes
-    return () => clearTimeout(timeoutId);
-  }, [key, storedValue]);
+  // Create a wrapper function for setStoredValue that updates localStorage immediately
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      // Handle both direct values and updater functions
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
 
-  return [storedValue, setStoredValue] as const;
+      // Update React state
+      setStoredValue(valueToStore);
+
+      // Update localStorage immediately
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  };
+
+  return [storedValue, setValue] as const;
 }
