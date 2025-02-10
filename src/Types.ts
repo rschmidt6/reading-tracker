@@ -11,6 +11,25 @@ export interface Book {
   readingProgress?: number;
   daysInProgress?: number;
 }
+export interface displayTabType {
+  id: Tab;
+  displayText: string;
+}
+
+export const displayTabs: displayTabType[] = [
+  {
+    id: "add",
+    displayText: "Add a Book",
+  },
+  {
+    id: "library",
+    displayText: "View Library",
+  },
+  {
+    id: "overview",
+    displayText: "Reading Metrics",
+  },
+];
 
 export type Genre =
   | "drama"

@@ -1,5 +1,3 @@
-//reading list and set reading list
-
 import { Book as BookType } from "../Types";
 import Book from "./Book";
 
@@ -8,7 +6,6 @@ interface LibraryTabProps {
   setReadingList: React.Dispatch<React.SetStateAction<BookType[]>>;
 }
 
-// This would contain your book list display and deletion logic
 export default function LibraryTab({
   readingList,
   setReadingList,

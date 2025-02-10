@@ -6,8 +6,6 @@ interface AddBookTabProps {
   setReadingList: React.Dispatch<React.SetStateAction<BookType[]>>;
 }
 
-// Move all the book adding form state and handlers here
-// This would contain your current form code
 export default function AddBookTab({
   readingList,
   setReadingList,
@@ -79,7 +77,6 @@ export default function AddBookTab({
       dateAdded: Date.now(),
     };
 
-    // Update the reading list using a callback to ensure we have the latest state
     setReadingList((prev) => {
       return [...(prev || []), newBook];
     });
