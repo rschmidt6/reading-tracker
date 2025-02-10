@@ -1,7 +1,9 @@
-import { Book as BookType } from "./Types";
-import Book from "./components/Book";
+import { Book as BookType, Tab } from "./Types";
 import { useLocalStorage } from "./assets/useLocalStorage";
 import AddBookTab from "./components/AddBookTab";
+import LibraryTab from "./components/LibraryTab";
+import OverviewTab from "./components/OverviewTab";
+import { useState } from "react";
 
 // to add tabs:
 // add book tab
@@ -14,27 +16,55 @@ export default function App() {
     []
   );
 
-  // Add this console.log to verify our state
-  console.log("Current reading list:", readingList);
+  const [activeTab, setActiveTab] = useState<Tab>("add");
 
-  //   const [activeTab, setActiveTab] = useState<Tab>("add");
-
-  const handleDeleteBook = (id: string) => {
-    setReadingList((prev) => prev.filter((book) => book.id !== id));
+  const handleTabSelect = (tab: Tab) => {
+    setActiveTab(tab);
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-gray-50 min-h-screen">
-      <AddBookTab readingList={readingList} setReadingList={setReadingList} />
-      {/* Book list section */}
-      <div className="mt-12 space-y-4">
-        {readingList.map((book: BookType) => (
-          <Book
-            key={book.id}
-            book={book}
-            onDelete={() => handleDeleteBook(book.id)}
+    <div>
+      {/* tabs */}
+      <div className="max-w-4xl mx-auto p-8 bg-gray-50 min-h-screen">
+        <div className="flex gap-2 mb-2">
+          <div
+            onClick={() => handleTabSelect("add")}
+            className={`px-2 py-1 text-xl rounded cursor-pointer ${
+              activeTab === "add" ? "bg-gray-200" : ""
+            }`}
+          >
+            Add a Book
+          </div>
+          <div
+            onClick={() => handleTabSelect("library")}
+            className={`px-2 py-1 text-xl rounded cursor-pointer ${
+              activeTab === "library" ? "bg-gray-200" : ""
+            }`}
+          >
+            View Library
+          </div>
+          <div
+            onClick={() => handleTabSelect("overview")}
+            className={`px-2 py-1 text-xl rounded cursor-pointer ${
+              activeTab === "overview" ? "bg-gray-200" : ""
+            }`}
+          >
+            Reading Metrics
+          </div>
+        </div>
+        {activeTab === "add" && (
+          <AddBookTab
+            readingList={readingList}
+            setReadingList={setReadingList}
           />
-        ))}
+        )}
+        {activeTab === "library" && (
+          <LibraryTab
+            readingList={readingList}
+            setReadingList={setReadingList}
+          />
+        )}
+        {activeTab === "overview" && <OverviewTab />}
       </div>
     </div>
   );

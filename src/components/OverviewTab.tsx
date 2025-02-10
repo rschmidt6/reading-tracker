@@ -1,1 +1,3 @@
-export default function Overview() {}
+export default function OverviewTab() {
+  return <div>overview tab!</div>;
+}
