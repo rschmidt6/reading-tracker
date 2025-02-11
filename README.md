@@ -7,13 +7,12 @@ Add/remove books with details:
 Title
 Author
 Page count
-Multiple genres (like your categories)
+Multiple genres
 Reading status (Not Started, In Progress, Completed)
 Optional: Reading progress (page number/percentage)
 
 Advanced State Management:
 
-Implement undo/redo for actions (adding/removing/updating books)
 Persist data in localStorage
 Add error handling for duplicate books
 
@@ -85,9 +84,8 @@ Use windowing/virtualization for long lists (react-window library)
 
 ## tricks to remember from this
 
--the localstorage custom hook
-
 -this progress bar trick as well as this computed prop:
 const progress = Math.round((book.currentPage / book.pageCount) \* 100);
 style={{ width: `${progress}%` }}
+
 # reading-tracker

@@ -2,10 +2,11 @@ import { Book as BookType } from "../Types";
 
 interface BookProps {
   book: BookType;
+  onEdit: () => void;
   onDelete: () => void;
 }
 
-export default function Book({ book, onDelete }: BookProps) {
+export default function Book({ book, onDelete, onEdit }: BookProps) {
   // Calculate reading progress percentage
   const progress = Math.round((book.currentPage / book.pageCount) * 100);
 
@@ -54,12 +55,20 @@ export default function Book({ book, onDelete }: BookProps) {
               </span>
             ))}
           </div>
-          <button
-            className="rounded-full text-sm px-2 py-1 text-gray-600 bg-red-200"
-            onClick={onDelete}
-          >
-            delete
-          </button>
+          <div>
+            <button
+              className="rounded-full text-sm px-2 py-1 text-gray-600 bg-gray-200 mr-2"
+              onClick={onEdit}
+            >
+              edit
+            </button>
+            <button
+              className="rounded-full text-sm px-2 py-1 text-gray-600 bg-red-200 "
+              onClick={onDelete}
+            >
+              delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
