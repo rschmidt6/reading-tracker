@@ -32,18 +32,48 @@ export const displayTabs: displayTabType[] = [
 ];
 
 export type Genre =
-  | "drama"
+  | "fiction"
+  | "non-fiction"
+  | "mystery"
   | "romance"
+  | "science-fiction"
+  | "fantasy"
   | "thriller"
+  | "horror"
   | "historical"
-  | "children";
+  | "biography"
+  | "self-help"
+  | "drama"
+  | "adventure"
+  | "children"
+  | "young-adult"
+  | "poetry"
+  | "crime"
+  | "comedy"
+  | "business"
+  | "literary";
 
 export const genres: Genre[] = [
-  "drama",
+  "fiction",
+  "non-fiction",
+  "mystery",
   "romance",
+  "science-fiction",
+  "fantasy",
   "thriller",
+  "horror",
   "historical",
+  "biography",
+  "self-help",
+  "drama",
+  "adventure",
   "children",
+  "young-adult",
+  "poetry",
+  "crime",
+  "comedy",
+  "business",
+  "literary",
 ];
 
 export type Status = "not started" | "in progress" | "finished" | "given up";

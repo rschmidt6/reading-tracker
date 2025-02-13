@@ -4,6 +4,7 @@ import AddBookTab from "./components/AddBookTab";
 import LibraryTab from "./components/LibraryTab";
 import OverviewTab from "./components/OverviewTab";
 import { useState } from "react";
+import { initialBooks } from "./data/BookData";
 
 // to add tabs:
 // add book tab
@@ -13,7 +14,7 @@ import { useState } from "react";
 export default function App() {
   const [readingList, setReadingList] = useLocalStorage<BookType[]>(
     "readingList",
-    []
+    initialBooks
   );
 
   const [activeTab, setActiveTab] = useState<Tab>("add");
