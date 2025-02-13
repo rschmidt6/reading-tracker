@@ -16,19 +16,27 @@ export default function AddBookTab({
   const [bookCurrentPage, setBookCurrentPage] = useState(0);
   const [bookStatus, setBookStatus] = useState<Status>("not started");
   const [bookGenres, setBookGenres] = useState<Set<Genre>>(new Set());
+  const [errorText, setErrorText] = useState("");
 
   const handleBookTitle = (text: string) => {
+    setErrorText("");
     setBookTitle(text);
   };
   const handleBookAuthor = (text: string) => {
+    setErrorText("");
+
     setBookAuthor(text);
   };
 
   const handleBookPageTotal = (num: number) => {
+    setErrorText("");
+
     setBookPageTotal(num);
   };
 
   const handleBookCurrentPage = (num: number) => {
+    setErrorText("");
+
     setBookCurrentPage(num);
   };
 
@@ -53,17 +61,31 @@ export default function AddBookTab({
   const handleBookSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("Current reading list:", readingList);
-
     if (typeof setReadingList !== "function") {
-      console.error("setReadingList is not a function:", setReadingList);
       return;
     }
 
-    if (!bookTitle.trim() || !bookAuthor.trim()) return;
-    if (bookPageTotal < 1) return;
-    if (bookCurrentPage < 0) return;
-    if (bookCurrentPage > bookPageTotal) return;
+    if (!bookTitle.trim() || !bookAuthor.trim()) {
+      setErrorText("Please enter both a title and author!");
+      return;
+    }
+    if (bookPageTotal < 1) {
+      setErrorText("Please enter a number of pages");
+      return;
+    }
+    if (bookCurrentPage < 0) {
+      setErrorText("Please enter a valid current page number");
+      return;
+    }
+    if (bookCurrentPage > bookPageTotal) {
+      setErrorText("Current page can't be longer than total pages");
+      return;
+    }
+    const currentBookTitles = new Set(readingList.map((book) => book.title));
+    if (currentBookTitles.has(bookTitle)) {
+      setErrorText("Duplicate book title exists in library");
+      return;
+    }
 
     // Create the new book object
     const newBook = {
@@ -185,6 +207,7 @@ export default function AddBookTab({
         >
           Add Book
         </button>
+        <div className="text-red-500">{errorText}</div>
       </form>
     </>
   );
