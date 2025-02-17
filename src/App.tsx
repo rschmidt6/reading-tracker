@@ -30,6 +30,7 @@ export default function App() {
         <div className="flex gap-2 mb-2">
           {displayTabs.map((tab) => (
             <div
+              key={tab.id}
               onClick={() => handleTabSelect(tab.id)}
               className={`px-2 py-1 text-xl rounded cursor-pointer ${
                 activeTab === tab.id ? "bg-gray-200" : ""

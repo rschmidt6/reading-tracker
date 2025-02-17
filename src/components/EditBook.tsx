@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { Book as BookType, Status, statuses } from "../Types";
 
+//filtering types: status, genres, reading progress of pages
+//search by title, author
+
 interface EditBookFormProps {
   book: BookType;
   onSubmit: (updatedBook: BookType) => void;
@@ -22,6 +25,7 @@ export default function EditBook({
 
     // Validate inputs
     if (currentPage > book.pageCount || currentPage < 0) return;
+    //need to add error handling
 
     // Create updated book object
     const updatedBook: BookType = {
