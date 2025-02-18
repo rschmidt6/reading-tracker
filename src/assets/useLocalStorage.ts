@@ -13,7 +13,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
     try {
       const item = window.localStorage.getItem(key);
       // Add a console.log to see what we're getting from localStorage
-      console.log("Loading from localStorage:", item);
+      // console.log("Loading from localStorage:", item);
 
       // Be more explicit about our fallback to initialValue
       if (item === null) {

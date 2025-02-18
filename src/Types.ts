@@ -3,8 +3,8 @@ export interface Book {
   title: string;
   author: string;
   pageCount: number;
-  genres?: Genre[];
-  status?: Status;
+  genres: Genre[];
+  status: Status;
   currentPage: number;
   dateAdded: number;
   //computed:
