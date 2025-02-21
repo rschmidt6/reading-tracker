@@ -16,7 +16,7 @@ export default function LibraryTab({
 }: LibraryTabProps) {
   const [editing, setEditing] = useState<string | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>(statuses);
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
 
   const genreOptions = genres.map((genre) => ({
     value: genre,
@@ -28,12 +28,24 @@ export default function LibraryTab({
     label: status.charAt(0).toUpperCase() + status.slice(1), // Capitalize first letter
   }));
 
-  const filteredBooks = readingList.filter(
-    (book) =>
+  const filteredBooks = readingList.filter((book) => {
+    // If no filters are selected, show all books
+    if (selectedGenres.length === 0 && selectedStatuses.length === 0) {
+      return true;
+    }
+
+    // Check if book matches selected genres (if any are selected)
+    const matchesGenres =
       selectedGenres.length === 0 ||
-      (book.genres?.some((genre) => selectedGenres.includes(genre)) &&
-        selectedStatuses.includes(book.status))
-  );
+      book.genres?.some((genre) => selectedGenres.includes(genre));
+
+    // Check if book matches selected statuses (if any are selected)
+    const matchesStatus =
+      selectedStatuses.length === 0 || selectedStatuses.includes(book.status);
+
+    // Book must match both genre and status filters
+    return matchesGenres && matchesStatus;
+  });
 
   const handleStartEdit = (id: string) => {
     setEditing(id);
